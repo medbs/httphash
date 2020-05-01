@@ -5,34 +5,53 @@ import (
 	"fmt"
 	"httphash/core"
 	"os"
+	"sync"
 )
 
 func main() {
 
-	//number of parallel requests
 	parallel := flag.Int("parallel", 10, "number pf parallel requests")
-	//fmt.Print(*parallel)
-	//fmt.Print("\n")
 
 	arg := os.Args[2:]
 
 	Launcher(arg, parallel)
 }
 
-func Launcher(urls []string, parallel *int) {
+func Launcher(urls []string, numberParallelRequests *int) {
 
-	for i := 1; i < len(urls); i++ {
+	// make sure the app doesn't finish prematurely until all goroutines finish executing
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(len(urls))
 
-		validUrl, requestResponse, isValid := core.RequestUrl(urls[i])
 
-		if !isValid {
-			fmt.Print(validUrl + " Url format is wrong \n")
-		} else {
-			hash := core.HashRequestResponse(requestResponse)
+	sem := make(chan struct{}, *numberParallelRequests)
 
-			fmt.Print(validUrl + " " + " " + hash)
-			fmt.Print("\n")
-		}
+	for _, url := range urls {
+
+		sem <- struct{}{}
+
+		go func(url string) {
+
+			defer func() {
+				waitGroup.Done()
+				<-sem
+			}()
+
+			sendRequest(url)
+		}(url)
 	}
+	// wait until all goroutine finish executing
+	waitGroup.Wait()
+}
 
+func sendRequest(url string) {
+	validUrl, requestResponse, isValid := core.RequestUrl(url)
+	if !isValid {
+		fmt.Print(validUrl + " Url format is wrong \n")
+	} else {
+		hash := core.HashRequestResponse(requestResponse)
+
+		fmt.Print(validUrl + " " + " " + hash)
+		fmt.Print("\n")
+	}
 }

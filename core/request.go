@@ -31,11 +31,9 @@ func RequestUrl(url string) (string, string, bool) {
 
 	//always return validatedUrl even it has wrong format, to be displayed to the user
 	if err != nil {
-		//print(err.Error())
 		return validatedUrl, err.Error(), false
 	}
 
 	return validatedUrl, resp.Status, true
 
-	//print(string(resp.StatusCode) + resp.Status)
 }
