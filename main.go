@@ -22,11 +22,11 @@ func main() {
 func Launcher(urls []string, parallel *int) {
 
 	for i := 1; i < len(urls); i++ {
-		
+
 		validUrl, requestResponse, isValid := core.RequestUrl(urls[i])
 
 		if !isValid {
-			fmt.Print("Url format is wrong")
+			fmt.Print(validUrl + " Url format is wrong \n")
 		} else {
 			hash := core.HashRequestResponse(requestResponse)
 

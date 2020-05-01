@@ -24,14 +24,15 @@ func RequestUrl(url string) (string, string, bool) {
 	validatedUrl, isValid := ValidateUrl(url)
 
 	if !isValid {
-		return "", "", false
+		return validatedUrl, "", false
 	}
 
 	resp, err := client.Get(validatedUrl)
 
+	//always return validatedUrl even it has wrong format, to be displayed to the user
 	if err != nil {
 		//print(err.Error())
-		return "", err.Error(), false
+		return validatedUrl, err.Error(), false
 	}
 
 	return validatedUrl, resp.Status, true
