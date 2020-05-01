@@ -22,20 +22,15 @@ func main() {
 func Launcher(urls []string, parallel *int) {
 
 	for i := 1; i < len(urls); i++ {
+		
+		validUrl, requestResponse, isValid := core.RequestUrl(urls[i])
 
-		//fmt.Print(arg[i])
-		//fmt.Print("\n")
-		/*resp, _ := http.Get(arg[i])
-		fmt.Print(resp)*/
-
-		requestResponse, isUrlReachable := core.RequestUrl(urls[i])
-
-		if !isUrlReachable {
+		if !isValid {
 			fmt.Print("Url format is wrong")
 		} else {
 			hash := core.HashRequestResponse(requestResponse)
 
-			fmt.Print(urls[i] + " " + " " + hash)
+			fmt.Print(validUrl + " " + " " + hash)
 			fmt.Print("\n")
 		}
 	}

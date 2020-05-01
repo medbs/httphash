@@ -14,7 +14,7 @@ func HashRequestResponse(requestResponse string) string {
 
 }
 
-func RequestUrl(url string) (string, bool) {
+func RequestUrl(url string) (string, string, bool) {
 	timeout := 5 * time.Second
 
 	client := http.Client{
@@ -24,17 +24,17 @@ func RequestUrl(url string) (string, bool) {
 	validatedUrl, isValid := ValidateUrl(url)
 
 	if !isValid {
-		return " ", false
+		return "", "", false
 	}
 
 	resp, err := client.Get(validatedUrl)
 
 	if err != nil {
 		//print(err.Error())
-		return err.Error(), false
+		return "", err.Error(), false
 	}
 
-	return resp.Status, true
+	return validatedUrl, resp.Status, true
 
 	//print(string(resp.StatusCode) + resp.Status)
 }
