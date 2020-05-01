@@ -16,11 +16,10 @@ func main() {
 
 	arg := os.Args[2:]
 
-	Launcher(arg,parallel)
+	Launcher(arg, parallel)
 }
 
-
-func Launcher(urls []string , parallel *int ){
+func Launcher(urls []string, parallel *int) {
 
 	for i := 1; i < len(urls); i++ {
 
@@ -29,12 +28,16 @@ func Launcher(urls []string , parallel *int ){
 		/*resp, _ := http.Get(arg[i])
 		fmt.Print(resp)*/
 
-		requestResponse := core.RequestUrl(urls[i])
+		requestResponse, isUrlReachable := core.RequestUrl(urls[i])
 
-		hash:= core.HashString(requestResponse)
+		if !isUrlReachable {
+			fmt.Print("Url format is wrong")
+		} else {
+			hash := core.HashRequestResponse(requestResponse)
 
-		fmt.Print(urls[i] + " " + " " + hash)
-		fmt.Print("\n")
+			fmt.Print(urls[i] + " " + " " + hash)
+			fmt.Print("\n")
+		}
 	}
 
 }
