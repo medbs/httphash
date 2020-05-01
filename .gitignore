@@ -1,0 +1,10 @@
+/dist/
+
+### IDE ###
+.idea
+*.iws
+*.iml
+*.ipr
+.vscode/
+.idea/
+*debug*
