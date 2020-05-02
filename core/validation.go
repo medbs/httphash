@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+//ValidateUrl checks if an URL respects a certain format, and try to validate it of possible
 func ValidateUrl(urlToCheck string) (string, bool) {
 
 	var validatedUrl string
