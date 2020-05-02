@@ -10,10 +10,10 @@ import (
 
 func main() {
 
-	parallel := flag.Int("parallel", 10, "number pf parallel requests")
+	parallel := flag.Int("parallel", 10, "number of parallel requests")
+	flag.Parse()
 
 	arg := os.Args[2:]
-
 	Launcher(arg, parallel)
 }
 

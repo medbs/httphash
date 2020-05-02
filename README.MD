@@ -6,7 +6,7 @@
 
 Example of execution with only correct urls
 ```
-go run main.go -parallel 5 http://twitter.com http://google.com
+go run main.go -parallel=5 http://twitter.com http://google.com
 ```
 
 Example of execution with one wrong url
