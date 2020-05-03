@@ -1,7 +1,7 @@
 ### Prerequisites
 * Go 1.13 
 
-### Run the project
+### Run the project
 
 Example of execution with only correct urls
 ```
