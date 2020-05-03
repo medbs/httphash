@@ -8,6 +8,11 @@ Example of execution with only correct urls
 go run main.go -parallel=5 http://twitter.com http://google.com
 ```
 
+Example of execution with only correct urls without indicating number of parallel requests
+```
+go run main.go http://twitter.com http://www.amazon.com
+```
+
 Example of execution with one wrong url
 
 ```
