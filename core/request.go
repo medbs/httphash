@@ -3,16 +3,21 @@ package core
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"net/http"
 	"time"
 )
 
-// HashRequestResponse takes a string argument and returns the md5 hash of it
-func HashRequestResponse(requestResponse string) string {
+func SendRequestHashResponse(url string) {
+	validUrl, requestResponse, isValid := RequestUrl(url)
+	if !isValid {
+		fmt.Print(validUrl + " Url format is wrong or cannot be requested \n")
+	} else {
+		hash := HashRequestResponse(requestResponse)
 
-	hash := md5.Sum([]byte(requestResponse))
-	return hex.EncodeToString(hash[:])
+		fmt.Println(validUrl + " " + " " + hash)
 
+	}
 }
 
 //RequestUrl sends request to a given url, returns the url, the response of the request, and a boolean indicating if the request is successful or not
@@ -37,5 +42,13 @@ func RequestUrl(url string) (string, string, bool) {
 	}
 
 	return validatedUrl, resp.Status, true
+
+}
+
+// HashRequestResponse takes a string argument and returns the md5 hash of it
+func HashRequestResponse(requestResponse string) string {
+
+	hash := md5.Sum([]byte(requestResponse))
+	return hex.EncodeToString(hash[:])
 
 }
