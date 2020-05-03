@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -41,7 +42,17 @@ func RequestUrl(url string) (string, string, bool) {
 		return validatedUrl, err.Error(), false
 	}
 
-	return validatedUrl, resp.Status, true
+	//close reading body at the end of the function to prevent resources leaks
+	defer resp.Body.Close()
+
+	//read the body of the response
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return validatedUrl, err.Error(), false
+	}
+
+	return validatedUrl, string(body), true
 
 }
 

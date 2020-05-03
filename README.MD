@@ -22,5 +22,5 @@ go build -o dist/app main.go
 ```
 Run 
 ```
-dist/app -parallel 5 http://twitter.com http://google.com
+dist/app -parallel=5 http://twitter.com http://google.com
 ```
